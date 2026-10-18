@@ -24,10 +24,13 @@ Abra o `index.html` no navegador — não precisa instalar nada.
 Para publicar no **GitHub Pages**: no repositório, vá em *Settings → Pages*, escolha a
 branch e a pasta `/ (root)` e salve. Novos repositórios públicos aparecem na página sozinhos.
 
-Para trocar o usuário do GitHub, edite `GITHUB_USER` no começo do `script.js`.
+Para trocar o usuário do GitHub, edite `GITHUB_USER` no começo do `script.js`. Para esconder um
+repositório público da lista, coloque o nome dele (em minúsculas) em `HIDDEN_REPOS`, logo abaixo.
 
 ## Adicionar detalhes de um projeto
 
 Os textos e imagens da tela de detalhes ficam em `projects-data.js`, um bloco por repositório
 (a chave é o nome do repositório em minúsculas). Coloque as imagens em `assets/projetos/`.
 Projetos sem bloco ali também abrem a tela, usando a descrição do GitHub.
+
+Os ícones ficam em `icons.js`, desenhados em SVG. Use o nome do ícone no campo `icon` do projeto.

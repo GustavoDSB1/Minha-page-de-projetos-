@@ -18,6 +18,17 @@
     <p class="loader-text">&lt;carregando /&gt;</p>
   </div>
 
+  <!-- Degradê usado pelos ícones -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="neon-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#c084fc" />
+        <stop offset=".55" stop-color="#22d3ee" />
+        <stop offset="1" stop-color="#f472b6" />
+      </linearGradient>
+    </defs>
+  </svg>
+
   <!-- Fundo animado -->
   <canvas id="particles"></canvas>
   <div class="blob blob-1"></div>
@@ -106,28 +117,28 @@
       <h2 class="section-title reveal"><span class="num">02.</span> Habilidades</h2>
       <div class="skills">
         <div class="skill reveal">
-          <div class="skill-icon">🐍</div>
+          <div class="skill-icon" data-icon="python"></div>
           <div class="skill-info">
             <div class="skill-head"><span>Python</span><span class="skill-pct">70%</span></div>
             <div class="bar"><div class="fill" data-width="70"></div></div>
           </div>
         </div>
         <div class="skill reveal">
-          <div class="skill-icon">🎨</div>
+          <div class="skill-icon" data-icon="htmlcss"></div>
           <div class="skill-info">
             <div class="skill-head"><span>HTML / CSS</span><span class="skill-pct">60%</span></div>
             <div class="bar"><div class="fill" data-width="60"></div></div>
           </div>
         </div>
         <div class="skill reveal">
-          <div class="skill-icon">⚡</div>
+          <div class="skill-icon" data-icon="javascript"></div>
           <div class="skill-info">
             <div class="skill-head"><span>JavaScript</span><span class="skill-pct">45%</span></div>
             <div class="bar"><div class="fill" data-width="45"></div></div>
           </div>
         </div>
         <div class="skill reveal">
-          <div class="skill-icon">🌱</div>
+          <div class="skill-icon" data-icon="git"></div>
           <div class="skill-info">
             <div class="skill-head"><span>Git / GitHub</span><span class="skill-pct">55%</span></div>
             <div class="bar"><div class="fill" data-width="55"></div></div>
@@ -197,6 +208,7 @@
     </div>
   </div>
 
+  <script src="icons.js"></script>
   <script src="projects-data.js"></script>
   <script src="script.js"></script>
 </body>
