@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gustavo Santos | Projetos</title>
   <meta name="description" content="Portfólio de Gustavo Santos — estudante de programação apaixonado por Python e tecnologia." />
-  <link rel="icon" href="https://avatars.githubusercontent.com/u/115741260?v=4" />
+  <link rel="icon" href="assets/avatar.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
@@ -46,7 +46,7 @@
     <section id="inicio" class="hero">
       <div class="avatar-wrap reveal">
         <div class="avatar-glow"></div>
-        <img src="https://avatars.githubusercontent.com/u/115741260?v=4" alt="Foto de Gustavo Santos" class="avatar" />
+        <img src="assets/avatar.png" alt="Logo GS de Gustavo Santos" class="avatar" />
       </div>
       <p class="hello reveal">Olá, mundo! 👋 Eu sou</p>
       <h1 class="glitch reveal" data-text="Gustavo Santos">Gustavo Santos</h1>
@@ -188,6 +188,16 @@
 
   <button id="to-top" aria-label="Voltar ao topo">↑</button>
 
+  <!-- Tela de detalhes do projeto -->
+  <div id="project-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal-panel">
+      <button class="modal-close" aria-label="Fechar">✕</button>
+      <div class="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="projects-data.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
