@@ -84,4 +84,33 @@ const PROJECT_DETAILS = {
     ],
     live: { url: "https://gustavodsb1.github.io/Minha-page-de-projetos-/", label: "Você já está aqui 😄" },
   },
+
+  "toprioverde": {
+    repo: "toprioverde",
+    language: "CSS",
+    updated: "2026-10-18",
+    title: "Top Rio Verde",
+    emoji: "🚚",
+    tagline: "Site institucional que desenvolvi para a Top Rio Verde, empresa de financiamento de veículos.",
+    about: [
+      "A Top Rio Verde, de Rio Verde (GO), financia e refinancia caminhões a partir de 1986, ajuda quem vai comprar o primeiro caminhão e financia veículos leves a partir de 2002. A empresa é correspondente autorizado do Banco Daycoval.",
+      "Fiz o site para apresentar esses serviços e levar o visitante direto para o WhatsApp de um consultor. O visual é escuro, em tons de azul, com animações de entrada, e o site está publicado no Cloudflare Pages.",
+    ],
+    features: [
+      "Seção de serviços: financiamento de caminhões, primeiro caminhão, refinanciamento e veículos leves",
+      "Vantagens da empresa e passo a passo do contato até o veículo liberado",
+      "Perguntas frequentes e selo de correspondente do Banco Daycoval",
+      "Botões de WhatsApp com mensagem pronta e botão flutuante",
+      "Menu para celular, cabeçalho que muda ao rolar e animações ao aparecer",
+      "Cabeçalhos de segurança configurados no Cloudflare Pages (CSP, HSTS e outros)",
+    ],
+    tech: ["HTML", "CSS", "JavaScript", "Cloudflare Pages"],
+    images: [
+      { src: "assets/projetos/top-inicio.webp", caption: "Tela inicial" },
+      { src: "assets/projetos/top-servicos.webp", caption: "Serviços" },
+      { src: "assets/projetos/top-como-funciona.webp", caption: "Como funciona" },
+      { src: "assets/projetos/top-mobile.webp", caption: "Versão para celular", phone: true },
+    ],
+    live: { url: "https://toprioverde.pages.dev", label: "Abrir o site" },
+  },
 };
