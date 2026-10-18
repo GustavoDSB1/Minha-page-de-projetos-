@@ -1,4 +1,6 @@
 const GITHUB_USER = "GustavoDSB1";
+// Repositórios públicos que não devem aparecer como projeto (nome em minúsculas)
+const HIDDEN_REPOS = ["minha-page-de-projetos-"];
 
 const LANG_COLORS = {
   Python: "#3572A5",
@@ -9,10 +11,13 @@ const LANG_COLORS = {
   Java: "#b07219",
   "Jupyter Notebook": "#DA5B0B",
   Shell: "#89e051",
+  Kotlin: "#A97BFF",
 };
 
 const ICON_GITHUB = '<svg viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.26 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>';
 const ICON_LINK = '<svg viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7ZM19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7Z"/></svg>';
+
+document.querySelectorAll("[data-icon]").forEach((el) => (el.innerHTML = icon(el.dataset.icon)));
 
 const isTouch = window.matchMedia("(pointer: coarse)").matches;
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -267,7 +272,7 @@ function projectCard(repo, index) {
     <div class="project-inner">
       ${cover ? `<div class="project-cover${cover.phone ? " phone" : ""}"><img src="${escapeHTML(cover.src)}" alt="" loading="lazy" /></div>` : ""}
       <div class="project-top">
-        <span class="folder">${details?.emoji || (repo.fork ? "🍴" : "📁")}</span>
+        <span class="project-icon">${icon(details?.icon)}</span>
         <div class="project-links">
           <a href="${escapeHTML(repo.html_url)}" target="_blank" rel="noopener" aria-label="Ver no GitHub">${ICON_GITHUB}</a>
           ${homepage}
@@ -278,9 +283,9 @@ function projectCard(repo, index) {
       ${topics ? `<div class="topics">${topics}</div>` : ""}
       <div class="project-meta">
         ${lang ? `<span><i class="lang-dot" style="background:${color}"></i>${escapeHTML(lang)}</span>` : ""}
-        <span>⭐ ${repo.stargazers_count}</span>
-        <span>🍴 ${repo.forks_count}</span>
-        <span>🕒 ${updated}</span>
+        <span>${icon("estrela", "mini")} ${repo.stargazers_count}</span>
+        <span>${icon("fork", "mini")} ${repo.forks_count}</span>
+        <span>${icon("relogio", "mini")} ${updated}</span>
       </div>
       <span class="project-more">Ver detalhes <b>→</b></span>
     </div>`;
@@ -329,10 +334,10 @@ function openProject(repo, origin) {
         <p class="gallery-caption"></p>
         ${galleryImages.length > 1 ? `<div class="gallery-dots">${galleryImages.map((_, i) =>
           `<button class="dot${i === 0 ? " active" : ""}" data-i="${i}" aria-label="Imagem ${i + 1}"></button>`).join("")}</div>` : ""}
-      </div>` : `<div class="gallery-empty">${d.emoji || "📁"}</div>`}
+      </div>` : `<div class="gallery-empty">${icon(d.icon)}</div>`}
 
     <div class="modal-info">
-      <span class="modal-emoji">${d.emoji || "📁"}</span>
+      <span class="modal-icon">${icon(d.icon)}</span>
       <h3 id="modal-title" class="modal-title">${escapeHTML(title)}</h3>
       ${d.tagline ? `<p class="modal-tagline">${escapeHTML(d.tagline)}</p>` : ""}
 
@@ -350,8 +355,8 @@ function openProject(repo, origin) {
       ${d.note ? `<p class="modal-note">ℹ️ ${escapeHTML(d.note)}</p>` : ""}
 
       <div class="modal-meta">
-        <span>⭐ ${repo.stargazers_count} estrelas</span>
-        <span>🕒 Atualizado em ${updated}</span>
+        <span>${icon("estrela", "mini")} ${repo.stargazers_count} estrelas</span>
+        <span>${icon("relogio", "mini")} Atualizado em ${updated}</span>
       </div>
 
       <div class="modal-actions">
@@ -507,6 +512,7 @@ async function loadGitHub() {
     const { user, repos: all } = await fetchGitHub();
     const repos = all
       .filter((r) => r.name.toLowerCase() !== GITHUB_USER.toLowerCase()) // ignora o README de perfil
+      .filter((r) => !HIDDEN_REPOS.includes(r.name.toLowerCase()))
       .sort((a, b) => b.stargazers_count - a.stargazers_count || new Date(b.pushed_at) - new Date(a.pushed_at));
     renderRepos(repos);
 

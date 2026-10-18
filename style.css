@@ -269,6 +269,35 @@ a { color: inherit; text-decoration: none; }
 }
 .stat-label { color: var(--muted); font-size: .85rem; }
 
+/* ---------- Ícones ---------- */
+.icon {
+  display: block; fill: none; stroke: url(#neon-grad); stroke-width: 2.6;
+  stroke-linecap: round; stroke-linejoin: round; overflow: visible;
+  filter: drop-shadow(0 0 4px rgba(168, 85, 247, .55)) drop-shadow(0 0 10px rgba(34, 211, 238, .25));
+}
+.icon .fill { fill: url(#neon-grad); stroke: none; }
+.icon .fill-soft { fill: rgba(168, 85, 247, .15); }
+.icon .fill-bg { fill: var(--bg-2); }
+.icon .spark { stroke: var(--cyan); animation: twinkle 2.4s ease-in-out infinite; }
+@keyframes twinkle { 50% { opacity: .25; } }
+.icon.mini { display: inline-block; width: 15px; height: 15px; vertical-align: -2px; stroke-width: 3.4; filter: none; margin-right: 3px; }
+
+.project-icon {
+  width: 54px; height: 54px; padding: 8px; border-radius: 16px;
+  background: linear-gradient(135deg, rgba(168, 85, 247, .14), rgba(34, 211, 238, .08));
+  border: 1px solid rgba(168, 85, 247, .3);
+  transition: transform .5s cubic-bezier(.2, .8, .2, 1.4), box-shadow .4s, border-color .4s;
+}
+.project-icon .icon { width: 100%; height: 100%; stroke-dasharray: 220; stroke-dashoffset: 0; }
+.project:hover .project-icon {
+  transform: rotate(-8deg) scale(1.12); border-color: var(--cyan);
+  box-shadow: 0 0 22px rgba(34, 211, 238, .35);
+}
+.project:hover .project-icon .icon { animation: draw 1.2s ease-out; }
+@keyframes draw { from { stroke-dashoffset: 220; } to { stroke-dashoffset: 0; } }
+.skill:hover .skill-icon .icon { animation: draw 1.2s ease-out; }
+.modal.open .modal-icon .icon { stroke-dasharray: 220; animation: draw 1.4s ease-out .2s backwards; }
+
 /* ---------- Habilidades ---------- */
 .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
 .skill {
@@ -277,7 +306,8 @@ a { color: inherit; text-decoration: none; }
   transition: transform .3s, border-color .3s, box-shadow .3s;
 }
 .skill:hover { transform: translateY(-6px); border-color: var(--cyan); box-shadow: 0 10px 30px rgba(34, 211, 238, .2); }
-.skill-icon { font-size: 2.2rem; animation: bob 4s ease-in-out infinite; }
+.skill-icon { width: 46px; height: 46px; flex: none; animation: bob 4s ease-in-out infinite; }
+.skill-icon .icon { width: 100%; height: 100%; }
 .skill:nth-child(2) .skill-icon { animation-delay: -1s; }
 .skill:nth-child(3) .skill-icon { animation-delay: -2s; }
 .skill:nth-child(4) .skill-icon { animation-delay: -3s; }
@@ -345,7 +375,6 @@ a { color: inherit; text-decoration: none; }
 }
 
 .project-top { display: flex; justify-content: space-between; align-items: center; }
-.folder { font-size: 2rem; }
 .project-links { display: flex; gap: 14px; }
 .project-links a { color: var(--muted); transition: color .3s, transform .3s; }
 .project-links a:hover { color: var(--cyan); transform: translateY(-3px); }
@@ -444,7 +473,8 @@ body.modal-open { overflow: hidden; }
 .gallery-dots { display: flex; justify-content: center; gap: 8px; margin-top: 8px; }
 .dot { width: 9px; height: 9px; border-radius: 9px; border: none; background: rgba(255, 255, 255, .2); transition: width .35s, background .35s; }
 .dot.active { width: 26px; background: linear-gradient(90deg, var(--purple), var(--cyan)); }
-.gallery-empty { font-size: 5rem; text-align: center; padding: 50px 0 10px; animation: bob 4s ease-in-out infinite; }
+.gallery-empty { width: 120px; height: 120px; margin: 50px auto 10px; animation: bob 4s ease-in-out infinite; }
+.gallery-empty .icon { width: 100%; height: 100%; }
 
 .modal-info { padding: 22px 34px 34px; }
 .modal-info > * { opacity: 0; transform: translateY(18px); }
@@ -454,7 +484,8 @@ body.modal-open { overflow: hidden; }
 .modal.open .modal-info > *:nth-child(n+4) { animation-delay: .2s; }
 @keyframes infoIn { to { opacity: 1; transform: none; } }
 
-.modal-emoji { font-size: 2.4rem; display: inline-block; }
+.modal-icon { display: inline-flex; width: 64px; height: 64px; }
+.modal-icon .icon { width: 100%; height: 100%; }
 .modal-title {
   font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 800; line-height: 1.2;
   background: var(--grad); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
