@@ -60,12 +60,33 @@ const ICONS = {
     <circle cx="34" cy="20" r="4"/>
     <path d="M14 14v20M34 24c0 7-7 8-15 11"/>`,
 
+  ia: `
+    <rect x="12" y="12" width="24" height="24" rx="4"/>
+    <path d="M18 4v8M24 4v8M30 4v8M18 36v8M24 36v8M30 36v8M4 18h8M4 24h8M4 30h8M36 18h8M36 24h8M36 30h8"/>
+    <path d="M19 30l3.5-12h3L29 30M20.5 25.5h7"/>`,
+  android: `
+    <path d="M10 22a14 14 0 0 1 28 0v2H10z"/>
+    <path d="M14 8l4 6M34 8l-4 6"/>
+    <circle cx="19" cy="17" r="1.4" class="fill"/>
+    <circle cx="29" cy="17" r="1.4" class="fill"/>
+    <rect x="10" y="27" width="28" height="15" rx="4"/>`,
+  seguranca: `
+    <path d="M24 4 40 10v12c0 10-7 18-16 22C15 40 8 32 8 22V10z"/>
+    <rect x="17" y="21" width="14" height="11" rx="2"/>
+    <path d="M20 21v-3a4 4 0 0 1 8 0v3M24 25v3"/>`,
+
   // ----- Detalhes dos cards -----
   estrela: `<path d="M24 5l5.9 12 13.1 1.9-9.5 9.3 2.3 13.1L24 35l-11.8 6.3 2.3-13.1L5 18.9 18.1 17z"/>`,
   fork: `
     <circle cx="13" cy="9" r="4"/><circle cx="35" cy="9" r="4"/><circle cx="24" cy="39" r="4"/>
     <path d="M13 13v4c0 4 3 6 6 6h10c3 0 6-2 6-6v-4M24 23v12"/>`,
   relogio: `<circle cx="24" cy="24" r="18"/><path d="M24 13v11l7 5"/>`,
+  info: `<circle cx="24" cy="24" r="18"/><path d="M24 22v12"/><circle cx="24" cy="15" r="1.6" class="fill"/>`,
+
+  // ----- Interface -----
+  seta: `<path d="M8 24h30M28 13l11 11-11 11"/>`,
+  "seta-cima": `<path d="M24 40V10M13 20l11-11 11 11"/>`,
+  fechar: `<path d="M13 13l22 22M35 13 13 35"/>`,
 };
 
 /** Monta o SVG de um ícone. Nomes desconhecidos usam a pasta. */
