@@ -10,6 +10,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <script>
+    // Modo leve: liga antes da página aparecer em aparelhos fracos ou com economia de dados.
+    // ?leve=1 na URL força o modo leve; ?leve=0 desliga a detecção automática.
+    (function () {
+      var n = navigator, c = n.connection || {}, forced = /[?&]leve=([01])/.exec(location.search);
+      if (forced) {
+        if (forced[1] === "1") document.documentElement.classList.add("lite");
+        else document.documentElement.dataset.full = "";
+      } else if ((n.hardwareConcurrency && n.hardwareConcurrency <= 2) || (n.deviceMemory && n.deviceMemory <= 2) ||
+          c.saveData || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("lite");
+      }
+    })();
+  </script>
 </head>
 <body>
   <!-- Tela de carregamento -->

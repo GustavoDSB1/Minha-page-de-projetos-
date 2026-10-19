@@ -60,12 +60,12 @@ a { color: inherit; text-decoration: none; }
 
 .blob {
   position: fixed; z-index: -3; border-radius: 50%;
-  filter: blur(100px); opacity: .35;
+  opacity: .7; will-change: transform;
   animation: float 18s ease-in-out infinite;
 }
-.blob-1 { width: 450px; height: 450px; background: var(--purple); top: -120px; left: -120px; }
-.blob-2 { width: 380px; height: 380px; background: var(--cyan); bottom: -100px; right: -100px; animation-delay: -6s; }
-.blob-3 { width: 300px; height: 300px; background: var(--pink); top: 45%; left: 55%; animation-delay: -12s; opacity: .2; }
+.blob-1 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(168, 85, 247, .55), rgba(168, 85, 247, .18) 35%, transparent 68%); top: -240px; left: -240px; }
+.blob-2 { width: 620px; height: 620px; background: radial-gradient(circle, rgba(34, 211, 238, .5), rgba(34, 211, 238, .15) 35%, transparent 68%); bottom: -220px; right: -220px; animation-delay: -6s; }
+.blob-3 { width: 520px; height: 520px; background: radial-gradient(circle, rgba(236, 72, 153, .45), rgba(236, 72, 153, .12) 35%, transparent 68%); top: 40%; left: 50%; animation-delay: -12s; opacity: .3; }
 
 @keyframes float {
   0%, 100% { transform: translate(0, 0) scale(1); }
@@ -88,9 +88,9 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------- Scroll progress ---------- */
 #scroll-progress {
-  position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 1001;
-  background: var(--grad); background-size: 300% 100%;
-  animation: gradMove 4s linear infinite;
+  position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 1001;
+  transform: scaleX(0); transform-origin: left;
+  background: linear-gradient(90deg, var(--purple), var(--cyan), var(--pink));
   box-shadow: 0 0 12px var(--purple);
 }
 
@@ -99,19 +99,17 @@ a { color: inherit; text-decoration: none; }
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
   display: flex; justify-content: space-between; align-items: center;
   padding: 22px 6vw;
-  transition: padding .3s, background .3s, backdrop-filter .3s;
+  transition: padding .3s, background .3s;
 }
 .navbar.scrolled {
   padding: 14px 6vw;
-  background: rgba(7, 6, 15, .7);
-  backdrop-filter: blur(14px);
+  background: rgba(7, 6, 15, .92);
   border-bottom: 1px solid var(--border);
 }
 .logo {
   font-family: "Fira Code", monospace; font-weight: 600; font-size: 1.3rem;
-  background: var(--grad); background-size: 300% 100%;
+  background: linear-gradient(120deg, var(--purple), var(--cyan));
   -webkit-background-clip: text; background-clip: text; color: transparent;
-  animation: gradMove 5s linear infinite;
 }
 .navbar nav { display: flex; gap: 32px; }
 .navbar nav a { position: relative; font-size: .95rem; color: var(--muted); transition: color .3s; }
@@ -198,10 +196,9 @@ a { color: inherit; text-decoration: none; }
 }
 .btn-primary {
   background: var(--grad); background-size: 300% 100%; color: #fff;
-  animation: gradMove 5s linear infinite;
   box-shadow: 0 0 25px rgba(168, 85, 247, .45);
 }
-.btn-primary:hover { box-shadow: 0 0 45px rgba(34, 211, 238, .6); }
+.btn-primary:hover { box-shadow: 0 0 45px rgba(34, 211, 238, .6); animation: gradMove 3s linear infinite; }
 .btn-ghost { border: 2px solid var(--purple); color: var(--text); }
 .btn-ghost::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
@@ -257,7 +254,7 @@ a { color: inherit; text-decoration: none; }
 .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .stat-card {
   background: var(--card); border: 1px solid var(--border); border-radius: 18px;
-  padding: 26px 16px; text-align: center; backdrop-filter: blur(10px);
+  padding: 26px 16px; text-align: center;
   transition: border-color .3s, box-shadow .3s; transform-style: preserve-3d;
 }
 .stat-card:hover { border-color: var(--purple); box-shadow: 0 0 30px rgba(168, 85, 247, .3); }
@@ -273,12 +270,13 @@ a { color: inherit; text-decoration: none; }
 .icon {
   display: block; fill: none; stroke: url(#neon-grad); stroke-width: 2.6;
   stroke-linecap: round; stroke-linejoin: round; overflow: visible;
-  filter: drop-shadow(0 0 4px rgba(168, 85, 247, .55)) drop-shadow(0 0 10px rgba(34, 211, 238, .25));
+  filter: drop-shadow(0 0 5px rgba(168, 85, 247, .5));
 }
 .icon .fill { fill: url(#neon-grad); stroke: none; }
 .icon .fill-soft { fill: rgba(168, 85, 247, .15); }
 .icon .fill-bg { fill: var(--bg-2); }
-.icon .spark { stroke: var(--cyan); animation: twinkle 2.4s ease-in-out infinite; }
+.icon .spark { stroke: var(--cyan); }
+.project:hover .icon .spark { animation: twinkle 1.2s ease-in-out infinite; }
 @keyframes twinkle { 50% { opacity: .25; } }
 .icon.mini { display: inline-block; width: 15px; height: 15px; vertical-align: -2px; stroke-width: 3.4; filter: none; margin-right: 3px; }
 
@@ -306,19 +304,16 @@ a { color: inherit; text-decoration: none; }
   transition: transform .3s, border-color .3s, box-shadow .3s;
 }
 .skill:hover { transform: translateY(-6px); border-color: var(--cyan); box-shadow: 0 10px 30px rgba(34, 211, 238, .2); }
-.skill-icon { width: 46px; height: 46px; flex: none; animation: bob 4s ease-in-out infinite; }
+.skill-icon { width: 46px; height: 46px; flex: none; transition: transform .4s cubic-bezier(.2, .8, .2, 1.4); }
+.skill:hover .skill-icon { transform: translateY(-4px) scale(1.08); }
 .skill-icon .icon { width: 100%; height: 100%; }
-.skill:nth-child(2) .skill-icon { animation-delay: -1s; }
-.skill:nth-child(3) .skill-icon { animation-delay: -2s; }
-.skill:nth-child(4) .skill-icon { animation-delay: -3s; }
 .skill-info { flex: 1; }
 .skill-head { display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 8px; }
 .skill-pct { font-family: "Fira Code", monospace; color: var(--cyan); font-size: .9rem; }
 .bar { height: 8px; background: rgba(255, 255, 255, .07); border-radius: 8px; overflow: hidden; }
 .fill {
   height: 100%; width: 0; border-radius: 8px;
-  background: var(--grad); background-size: 300% 100%;
-  animation: gradMove 4s linear infinite;
+  background: linear-gradient(90deg, var(--pink), var(--purple), var(--cyan));
   transition: width 1.6s cubic-bezier(.2, .8, .2, 1);
   box-shadow: 0 0 12px var(--purple);
 }
@@ -356,9 +351,9 @@ a { color: inherit; text-decoration: none; }
 .project::before {
   content: ""; position: absolute; inset: -50%;
   background: conic-gradient(transparent 0 60%, var(--purple), var(--cyan), transparent 90%);
-  animation: spin 4s linear infinite; opacity: 0; transition: opacity .4s;
+  opacity: 0; transition: opacity .4s;
 }
-.project:hover::before { opacity: 1; }
+.project:hover::before { opacity: 1; animation: spin 4s linear infinite; }
 .project-inner {
   position: relative; height: 100%; border-radius: 18px; padding: 28px;
   background: var(--bg-2); display: flex; flex-direction: column; gap: 14px;
@@ -425,7 +420,7 @@ body.modal-open { overflow: hidden; }
 .modal { position: fixed; inset: 0; z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
 .modal[hidden] { display: none; }
 .modal-backdrop {
-  position: absolute; inset: 0; background: rgba(5, 4, 12, .75); backdrop-filter: blur(10px);
+  position: absolute; inset: 0; background: rgba(5, 4, 12, .9);
   opacity: 0; transition: opacity .45s ease;
 }
 .modal-panel {
@@ -443,7 +438,7 @@ body.modal-open { overflow: hidden; }
 .modal-close {
   position: sticky; top: 14px; float: right; margin: 14px 14px -58px 0; z-index: 3;
   width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border);
-  background: rgba(7, 6, 15, .75); color: var(--text); font-size: 1.1rem; backdrop-filter: blur(6px);
+  background: rgba(7, 6, 15, .9); color: var(--text); font-size: 1.1rem;
   transition: transform .3s, border-color .3s, color .3s;
 }
 .modal-close:hover { transform: rotate(90deg); border-color: var(--pink); color: var(--pink); }
@@ -491,9 +486,8 @@ body.modal-open { overflow: hidden; }
 .modal-title {
   font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 800; line-height: 1.2;
   background: var(--grad); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
-  animation: gradMove 6s linear infinite;
 }
-.modal.open .modal-title { animation: infoIn .6s cubic-bezier(.2, .8, .2, 1) .08s forwards, gradMove 6s linear infinite; }
+.modal.open .modal-title { animation: infoIn .6s cubic-bezier(.2, .8, .2, 1) .08s forwards; }
 .modal-tagline { color: var(--text); font-size: 1.1rem; margin-top: 6px; }
 .modal-info h4 {
   font-family: "Fira Code", monospace; color: var(--cyan); font-size: .95rem; font-weight: 600;
@@ -561,3 +555,19 @@ body.modal-open { overflow: hidden; }
 #to-top .icon, .modal-close .icon { width: 20px; height: 20px; margin: 0 auto; stroke-width: 4; filter: none; }
 #to-top .icon { stroke: #fff; }
 .modal-close .icon { stroke: currentColor; width: 16px; height: 16px; }
+
+/* ---------- Desempenho ---------- */
+/* Animações de seções fora da tela ficam pausadas (classe colocada pelo script.js) */
+.offscreen, .offscreen *, .offscreen *::before, .offscreen *::after { animation-play-state: paused !important; }
+
+/* Modo leve: ligado sozinho em aparelhos fracos */
+.lite #particles { display: none; }
+.lite .blob { animation: none; }
+.lite .glitch { animation: none; background-position: 0 0; }
+.lite .glitch::before, .lite .glitch::after { display: none; }
+.lite .avatar-glow, .lite .avatar { animation: none; }
+.lite .avatar-glow::after { display: none; }
+.lite .icon { filter: none; }
+.lite .marquee-track { animation-duration: 40s; }
+.lite .cursor-dot, .lite .cursor-ring { display: none; }
+@media (pointer: fine) { .lite body, .lite a, .lite button { cursor: auto; } .lite a, .lite button, .lite .project { cursor: pointer; } }

@@ -21,10 +21,14 @@ document.querySelectorAll("[data-icon]").forEach((el) => (el.innerHTML = icon(el
 
 const isTouch = window.matchMedia("(pointer: coarse)").matches;
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const root = document.documentElement;
+const isLite = () => root.classList.contains("lite");
 
 /* ---------- Loader ---------- */
 window.addEventListener("load", () => {
-  setTimeout(() => document.getElementById("loader").classList.add("hidden"), 600);
+  const loader = document.getElementById("loader");
+  setTimeout(() => loader.classList.add("hidden"), 600);
+  setTimeout(() => loader.remove(), 1500); // tira do DOM para as animações dele pararem de rodar
 });
 
 document.getElementById("year").textContent = new Date().getFullYear();
@@ -62,62 +66,89 @@ document.getElementById("year").textContent = new Date().getFullYear();
 })();
 
 /* ---------- Partículas conectadas ---------- */
-(function particles() {
+const particles = (function particles() {
   const canvas = document.getElementById("particles");
   const ctx = canvas.getContext("2d");
   const mouse = { x: null, y: null };
-  let w, h, dots;
+  const LINK = 130, LINK2 = LINK * LINK, BUCKETS = 4, FRAME_MS = 1000 / 30;
+  let w, h, dots, running = false, last = 0, heroVisible = true;
 
   function resize() {
     w = canvas.width = window.innerWidth;
     h = canvas.height = window.innerHeight;
-    const count = Math.min(110, Math.floor((w * h) / 14000));
+    const count = Math.min(60, Math.floor((w * h) / 22000));
     dots = Array.from({ length: count }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
+      vx: (Math.random() - 0.5) * 0.8,
+      vy: (Math.random() - 0.5) * 0.8,
       r: Math.random() * 1.8 + 0.6,
     }));
+    if (!running) draw();
   }
 
   function draw() {
-    ctx.clearRect(0, 0, w, h);
-    for (let i = 0; i < dots.length; i++) {
-      const d = dots[i];
+    // Atualiza posições
+    for (const d of dots) {
       d.x += d.vx; d.y += d.vy;
       if (d.x < 0 || d.x > w) d.vx *= -1;
       if (d.y < 0 || d.y > h) d.vy *= -1;
-
       if (mouse.x !== null) {
-        const dx = d.x - mouse.x, dy = d.y - mouse.y;
-        const dist = Math.hypot(dx, dy);
-        if (dist < 120) { d.x += dx / dist; d.y += dy / dist; }
+        const dx = d.x - mouse.x, dy = d.y - mouse.y, dist2 = dx * dx + dy * dy;
+        if (dist2 < 14400 && dist2 > 0) { const dist = Math.sqrt(dist2); d.x += (dx / dist) * 2; d.y += (dy / dist) * 2; }
       }
+    }
+    ctx.clearRect(0, 0, w, h);
 
-      ctx.beginPath();
-      ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-      ctx.fillStyle = i % 3 === 0 ? "rgba(34,211,238,.8)" : "rgba(168,85,247,.8)";
-      ctx.fill();
-
+    // Linhas agrupadas por transparência: poucas chamadas de desenho por quadro
+    const paths = Array.from({ length: BUCKETS }, () => new Path2D());
+    for (let i = 0; i < dots.length; i++) {
+      const d = dots[i];
       for (let j = i + 1; j < dots.length; j++) {
-        const o = dots[j];
-        const dist = Math.hypot(d.x - o.x, d.y - o.y);
-        if (dist < 130) {
-          ctx.strokeStyle = `rgba(168,85,247,${0.18 * (1 - dist / 130)})`;
-          ctx.lineWidth = 1;
-          ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(o.x, o.y); ctx.stroke();
+        const o = dots[j], dx = d.x - o.x, dy = d.y - o.y, dist2 = dx * dx + dy * dy;
+        if (dist2 < LINK2) {
+          const k = Math.min(BUCKETS - 1, Math.floor((dist2 / LINK2) * BUCKETS));
+          paths[k].moveTo(d.x, d.y); paths[k].lineTo(o.x, o.y);
         }
       }
     }
-    requestAnimationFrame(draw);
+    ctx.lineWidth = 1;
+    paths.forEach((path, k) => {
+      ctx.strokeStyle = `rgba(168,85,247,${(0.2 * (1 - (k + 0.5) / BUCKETS)).toFixed(3)})`;
+      ctx.stroke(path);
+    });
+
+    // Pontos agrupados por cor
+    const purple = new Path2D(), cyan = new Path2D();
+    dots.forEach((d, i) => {
+      const path = i % 3 === 0 ? cyan : purple;
+      path.moveTo(d.x + d.r, d.y); path.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+    });
+    ctx.fillStyle = "rgba(168,85,247,.8)"; ctx.fill(purple);
+    ctx.fillStyle = "rgba(34,211,238,.8)"; ctx.fill(cyan);
   }
 
+  function loop(t) {
+    if (!running) return;
+    if (t - last >= FRAME_MS) { last = t; draw(); } // no máximo 30 quadros por segundo
+    requestAnimationFrame(loop);
+  }
+
+  // Só anima quando faz sentido: aba visível, topo da página na tela e sem modo leve
+  function update() {
+    const should = !reducedMotion && !isLite() && !document.hidden && heroVisible;
+    if (should && !running) { running = true; requestAnimationFrame(loop); }
+    else if (!should) running = false;
+  }
+
+  new IntersectionObserver(([e]) => { heroVisible = e.isIntersecting && e.intersectionRatio > 0; update(); }, { threshold: [0, 0.001] }).observe(document.getElementById("inicio"));
+  document.addEventListener("visibilitychange", update);
   window.addEventListener("resize", resize);
-  window.addEventListener("mousemove", (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  window.addEventListener("mousemove", (e) => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
   window.addEventListener("mouseout", () => { mouse.x = mouse.y = null; });
   resize();
-  if (!reducedMotion) draw();
+  update();
+  return { update };
 })();
 
 /* ---------- Cursor personalizado ---------- */
@@ -125,24 +156,47 @@ document.getElementById("year").textContent = new Date().getFullYear();
   if (isTouch) return;
   const dot = document.querySelector(".cursor-dot");
   const ring = document.querySelector(".cursor-ring");
-  let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
+  let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, following = false;
+
+  // O anel só é animado enquanto está alcançando o mouse; parado, não gasta nada
+  function follow() {
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
+    ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+    if (Math.abs(mx - rx) > 0.3 || Math.abs(my - ry) > 0.3) requestAnimationFrame(follow);
+    else following = false;
+  }
 
   window.addEventListener("mousemove", (e) => {
     mx = e.clientX; my = e.clientY;
     dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
-  });
-
-  (function follow() {
-    rx += (mx - rx) * 0.15;
-    ry += (my - ry) * 0.15;
-    ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
-    requestAnimationFrame(follow);
-  })();
+    if (!following) { following = true; requestAnimationFrame(follow); }
+  }, { passive: true });
 
   document.addEventListener("mouseover", (e) => {
     ring.classList.toggle("hover", !!e.target.closest("a, button, .project, .stat-card"));
   });
 })();
+
+/* ---------- Modo leve automático ---------- */
+// Depois que a página carrega, mede a fluidez por 2 segundos. Se ficar abaixo de ~40 quadros
+// por segundo, liga o modo leve: sem partículas, sem brilhos e com menos animações.
+window.addEventListener("load", () => {
+  if (isLite() || "full" in root.dataset) return;
+  setTimeout(() => {
+    if (document.hidden) return;
+    let frames = 0;
+    const start = performance.now();
+    (function count(t) {
+      frames++;
+      if (t - start < 2000) return requestAnimationFrame(count);
+      if (frames / ((t - start) / 1000) < 40) {
+        root.classList.add("lite");
+        particles.update();
+      }
+    })(start);
+  }, 1500);
+});
 
 /* ---------- Navbar, progresso e botão topo ---------- */
 const navbar = document.querySelector(".navbar");
@@ -151,17 +205,32 @@ const toTop = document.getElementById("to-top");
 const navLinks = document.querySelectorAll(".navbar nav a");
 const sections = document.querySelectorAll("main section[id]");
 
+// No máximo uma atualização por quadro, e a barra de progresso usa transform (não recalcula o layout)
+let scrollQueued = false;
 window.addEventListener("scroll", () => {
-  const y = window.scrollY;
-  const max = document.documentElement.scrollHeight - innerHeight;
-  progress.style.width = `${(y / max) * 100}%`;
-  navbar.classList.toggle("scrolled", y > 40);
-  toTop.classList.toggle("show", y > 600);
+  if (scrollQueued) return;
+  scrollQueued = true;
+  requestAnimationFrame(() => {
+    scrollQueued = false;
+    const y = window.scrollY;
+    const max = root.scrollHeight - innerHeight;
+    progress.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
+    navbar.classList.toggle("scrolled", y > 40);
+    toTop.classList.toggle("show", y > 600);
+  });
+}, { passive: true });
 
-  let current = "";
-  sections.forEach((s) => { if (y >= s.offsetTop - 200) current = s.id; });
+// Link ativo do menu e pausa das animações das seções que estão fora da tela
+const visibleSections = new Set();
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach((e) => e.target.classList.toggle("offscreen", !(e.isIntersecting && e.intersectionRatio > 0)));
+}, { threshold: [0, 0.001] });
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach((e) => (e.isIntersecting ? visibleSections.add(e.target.id) : visibleSections.delete(e.target.id)));
+  const current = [...sections].find((s) => visibleSections.has(s.id))?.id;
   navLinks.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === `#${current}`));
-});
+}, { rootMargin: "-35% 0px -55% 0px" });
+sections.forEach((s) => { sectionObserver.observe(s); navObserver.observe(s); });
 
 toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
