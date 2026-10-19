@@ -107,6 +107,7 @@ a { color: inherit; text-decoration: none; }
   border-bottom: 1px solid var(--border);
 }
 .logo {
+  white-space: nowrap;
   font-family: "Fira Code", monospace; font-weight: 600; font-size: 1.3rem;
   background: linear-gradient(120deg, var(--purple), var(--cyan));
   -webkit-background-clip: text; background-clip: text; color: transparent;
@@ -120,8 +121,29 @@ a { color: inherit; text-decoration: none; }
 .navbar nav a:hover, .navbar nav a.active { color: var(--text); }
 .navbar nav a:hover::after, .navbar nav a.active::after { width: 100%; }
 
+/* Botão do modo leve */
+.navbar nav { align-items: center; }
+.lite-toggle {
+  display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px 6px 8px;
+  border-radius: 50px; border: 1px solid var(--border); background: var(--card);
+  color: var(--muted); font: inherit; font-size: .85rem; transition: border-color .3s, color .3s;
+}
+.lite-toggle:hover { border-color: var(--cyan); color: var(--text); }
+.lite-icon { width: 16px; height: 16px; display: inline-flex; }
+.lite-icon .icon { width: 100%; height: 100%; filter: none; stroke-width: 3.4; }
+.lite-switch { position: relative; width: 30px; height: 16px; border-radius: 16px; background: rgba(255, 255, 255, .15); transition: background .3s; }
+.lite-switch i { position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: var(--muted); transition: transform .3s, background .3s; }
+.lite-toggle[aria-checked="true"] { color: var(--text); border-color: rgba(34, 211, 238, .5); }
+.lite-toggle[aria-checked="true"] .lite-switch { background: linear-gradient(90deg, var(--purple), var(--cyan)); }
+.lite-toggle[aria-checked="true"] .lite-switch i { transform: translateX(14px); background: #fff; }
+
 @media (max-width: 640px) {
   .navbar { padding: 16px 16px; }
+  .lite-toggle {
+    position: fixed; left: 16px; bottom: 24px; z-index: 999; padding: 10px 12px;
+    background: rgba(7, 6, 15, .92); box-shadow: 0 4px 18px rgba(0, 0, 0, .4);
+  }
+  .lite-label { font-size: .8rem; }
   .navbar.scrolled { padding: 12px 16px; }
   .navbar nav { gap: 14px; }
   .navbar nav a { font-size: .8rem; }

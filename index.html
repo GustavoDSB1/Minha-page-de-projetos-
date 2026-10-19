@@ -12,9 +12,10 @@
   <link rel="stylesheet" href="style.css" />
   <script>
     // Modo leve: liga antes da página aparecer em aparelhos fracos ou com economia de dados.
-    // ?leve=1 na URL força o modo leve; ?leve=0 desliga a detecção automática.
+    // Ordem: ?leve=1 / ?leve=0 na URL > escolha feita no botão do menu > detecção automática.
     (function () {
       var n = navigator, c = n.connection || {}, forced = /[?&]leve=([01])/.exec(location.search);
+      if (!forced) { try { var saved = localStorage.getItem("modo-leve"); if (saved) forced = [0, saved]; } catch (e) {} }
       if (forced) {
         if (forced[1] === "1") document.documentElement.classList.add("lite");
         else document.documentElement.dataset.full = "";
@@ -63,6 +64,11 @@
       <a href="#habilidades">Habilidades</a>
       <a href="#projetos">Projetos</a>
       <a href="#contato">Contato</a>
+      <button id="lite-toggle" class="lite-toggle" type="button" role="switch" aria-checked="false" title="Desliga partículas e efeitos pesados">
+        <span class="lite-icon" data-icon="raio"></span>
+        <span class="lite-label">Modo leve</span>
+        <span class="lite-switch"><i></i></span>
+      </button>
     </nav>
   </header>
 

@@ -84,6 +84,7 @@ const ICONS = {
   info: `<circle cx="24" cy="24" r="18"/><path d="M24 22v12"/><circle cx="24" cy="15" r="1.6" class="fill"/>`,
 
   // ----- Interface -----
+  raio: `<path d="M27 4 10 27h12l-2 17 18-24H26z"/>`,
   seta: `<path d="M8 24h30M28 13l11 11-11 11"/>`,
   "seta-cima": `<path d="M24 40V10M13 20l11-11 11 11"/>`,
   fechar: `<path d="M13 13l22 22M35 13 13 35"/>`,
