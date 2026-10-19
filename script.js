@@ -29,13 +29,22 @@ window.addEventListener("load", () => {
 
 document.getElementById("year").textContent = new Date().getFullYear();
 
+/* ---------- Idade: sobe 1 ano todo dia 01/07 ---------- */
+(function age() {
+  const BIRTH = { year: 2004, month: 7, day: 1 };
+  const now = new Date();
+  const hadBirthday =
+    now.getMonth() + 1 > BIRTH.month || (now.getMonth() + 1 === BIRTH.month && now.getDate() >= BIRTH.day);
+  document.getElementById("age").textContent = now.getFullYear() - BIRTH.year - (hadBirthday ? 0 : 1);
+})();
+
 /* ---------- Efeito de digitação ---------- */
 (function typing() {
   const phrases = [
-    "Estudante de programação 💻",
-    "Apaixonado por tecnologia 🚀",
-    "Desenvolvedor Python em formação 🐍",
-    "Sempre aprendendo algo novo 📚",
+    "Desenvolvedor Web & Android",
+    "IA no centro de cada projeto",
+    "Hacking ético e cibersegurança",
+    "Ideias que viram produtos reais",
   ];
   const el = document.getElementById("typed");
   let p = 0, c = 0, deleting = false;
@@ -287,7 +296,7 @@ function projectCard(repo, index) {
         <span>${icon("fork", "mini")} ${repo.forks_count}</span>
         <span>${icon("relogio", "mini")} ${updated}</span>
       </div>
-      <span class="project-more">Ver detalhes <b>→</b></span>
+      <span class="project-more">Ver detalhes ${icon("seta", "mini")}</span>
     </div>`;
   addTilt(card, 10);
 
@@ -352,7 +361,7 @@ function openProject(repo, origin) {
         <h4>Tecnologias</h4>
         <div class="modal-tech">${tech.map((t) => `<span>${escapeHTML(t)}</span>`).join("")}</div>` : ""}
 
-      ${d.note ? `<p class="modal-note">ℹ️ ${escapeHTML(d.note)}</p>` : ""}
+      ${d.note ? `<p class="modal-note">${icon("info", "mini")} ${escapeHTML(d.note)}</p>` : ""}
 
       <div class="modal-meta">
         <span>${icon("estrela", "mini")} ${repo.stargazers_count} estrelas</span>
@@ -500,7 +509,7 @@ function renderRepos(repos) {
   const grid = document.getElementById("projects");
   grid.innerHTML = "";
   if (!repos.length) {
-    grid.innerHTML = `<div class="error-box">Nenhum projeto público ainda. Em breve! 🚧</div>`;
+    grid.innerHTML = `<div class="error-box">Nenhum projeto público ainda. Os próximos já estão a caminho.</div>`;
     return;
   }
   repos.forEach((repo, i) => grid.appendChild(projectCard(repo, i)));

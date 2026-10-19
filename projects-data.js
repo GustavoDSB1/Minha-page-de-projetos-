@@ -9,7 +9,7 @@ const PROJECT_DETAILS = {
     updated: "2026-10-18",
     title: "App Diárias",
     icon: "diarias",
-    tagline: "App Android que substitui a planilha de diárias de um restaurante.",
+    tagline: "Aposentei a planilha de diárias de um restaurante: agora tudo cabe em um app Android que funciona até sem internet.",
     about: [
       "Antes, o controle das diárias dos funcionários era feito em uma planilha do Excel com várias abas: cadastro, uma aba por semana, painel, escala e resumo. Transformei tudo isso em um aplicativo de celular que funciona offline.",
       "O app segue as mesmas regras da planilha: o valor da diária vem da área de trabalho, e o que falta pagar é calculado como valor − consumo − pago. Ele também avisa quando uma diária parece duplicada e mostra a situação de cada pessoa (pago, pendente, quitada ou em aberto).",
@@ -38,7 +38,7 @@ const PROJECT_DETAILS = {
     updated: "2026-10-18",
     title: "Mundo dos Achadinhoz",
     icon: "sacola",
-    tagline: "Vitrine de achadinhos da Shopee mostrados nos vídeos do canal @mundo_achadinhoz.",
+    tagline: "A vitrine que transforma cada vídeo do @mundo_achadinhoz em uma oferta a um toque de distância.",
     about: [
       "Site do canal Mundo dos Achadinhoz, que mostra produtos úteis e baratos em vídeos curtos. Cada achadinho que aparece nos vídeos ganha um card na vitrine, do mais novo para o mais antigo.",
       "Na versão nova, o site ganhou um visual em tons pastel, com banner, cartão de perfil e links para Telegram, Instagram e YouTube. Também dá para buscar os achadinhos pelo nome, e um botão flutuante leva para o grupo de ofertas.",
@@ -68,7 +68,7 @@ const PROJECT_DETAILS = {
     updated: "2026-10-18",
     title: "Top Rio Verde",
     icon: "caminhao",
-    tagline: "Site institucional que desenvolvi para a Top Rio Verde, empresa de financiamento de veículos.",
+    tagline: "Site que desenvolvi para a Top Rio Verde: do primeiro clique ao consultor no WhatsApp em segundos.",
     about: [
       "A Top Rio Verde, de Rio Verde (GO), financia e refinancia caminhões a partir de 1986, ajuda quem vai comprar o primeiro caminhão e financia veículos leves a partir de 2002. A empresa é correspondente autorizado do Banco Daycoval.",
       "Fiz o site para apresentar esses serviços e levar o visitante direto para o WhatsApp de um consultor. O visual é escuro, em tons de azul, com animações de entrada, e o site está publicado no Cloudflare Pages.",
@@ -97,7 +97,7 @@ const PROJECT_DETAILS = {
     updated: "2026-10-18",
     title: "App Contagem de Estoque",
     icon: "estoque",
-    tagline: "App Android para contar o estoque produto por produto e gerar uma planilha Excel no final.",
+    tagline: "Contagem de estoque sem papel e sem erro: toque, some e saia com a planilha Excel pronta.",
     about: [
       "Aplicativo Android simples e visual para fazer a contagem de estoque. Cada produto tem nome e um ícone ou foto. É só tocar nele, digitar quanto contou e o app soma ao que já tinha. O topo mostra quantos produtos já foram contados e o total de itens.",
       "No final, o app gera uma planilha Excel (.xlsx) com a contagem e o histórico de lançamentos, pronta para mandar no WhatsApp, e-mail ou Drive. A planilha é montada pelo próprio app, sem bibliotecas externas. Ele também tem uma aba de Consumo para dar baixa no que funcionários e diaristas consumiram e enviar o resumo do dia no WhatsApp.",
