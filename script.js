@@ -178,6 +178,20 @@ const particles = (function particles() {
   });
 })();
 
+/* ---------- Modo leve: botão no menu ---------- */
+const liteToggle = document.getElementById("lite-toggle");
+
+function setLite(on, save = false) {
+  root.classList.toggle("lite", on);
+  if (on) delete root.dataset.full; else root.dataset.full = "";
+  liteToggle.setAttribute("aria-checked", String(on));
+  particles.update();
+  if (save) { try { localStorage.setItem("modo-leve", on ? "1" : "0"); } catch {} }
+}
+
+liteToggle.setAttribute("aria-checked", String(isLite()));
+liteToggle.addEventListener("click", () => setLite(!isLite(), true));
+
 /* ---------- Modo leve automático ---------- */
 // Depois que a página carrega, mede a fluidez por 2 segundos. Se ficar abaixo de ~40 quadros
 // por segundo, liga o modo leve: sem partículas, sem brilhos e com menos animações.
@@ -190,10 +204,7 @@ window.addEventListener("load", () => {
     (function count(t) {
       frames++;
       if (t - start < 2000) return requestAnimationFrame(count);
-      if (frames / ((t - start) / 1000) < 40) {
-        root.classList.add("lite");
-        particles.update();
-      }
+      if (frames / ((t - start) / 1000) < 40 && !("full" in root.dataset)) setLite(true);
     })(start);
   }, 1500);
 });

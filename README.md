@@ -16,8 +16,9 @@ contatos e todos os meus projetos do GitHub carregados automaticamente pela API 
 - Clicar em um projeto abre uma tela com descrição, funcionalidades, tecnologias e galeria de imagens
 - Se a API do GitHub estiver fora do ar ou no limite de acessos, usa a última resposta salva ou a lista de `projects-data.js`
 - Responsivo e respeita a preferência "reduzir movimento" do sistema
-- Modo leve automático para aparelhos fracos: sem partículas, brilhos e efeitos pesados
-  (`?leve=1` na URL força o modo leve; `?leve=0` desliga a detecção)
+- Modo leve para aparelhos fracos (sem partículas, brilhos e efeitos pesados): liga sozinho quando
+  o aparelho é fraco e tem um botão no menu para ligar e desligar, que fica salvo no navegador
+  (`?leve=1` / `?leve=0` na URL também forçam)
 
 ## Como usar
 
